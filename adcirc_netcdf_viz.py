@@ -1,5 +1,4 @@
 from pylab import *
-
 import matplotlib.tri as Tri
 from shapely.geometry import mapping, Polygon
 import fiona
@@ -7,8 +6,6 @@ import netCDF4
 import datetime
 import time
 import sys
-
-
 
 imagefilename='test.png'
 shapefilename='test.shp'
@@ -42,7 +39,6 @@ print "Max of lon is (%i)" % lon.max()
 print "Max of lat is (%i)" % lat.max()
 print "Max of nv is (%i)" % nv.max()
 
-
 # time_var = nc['time']
 # dtime = netCDF4.num2date(time_var[:],time_var.units)
 #istart = netCDF4.date2index(start,time_var,select='nearest')
@@ -68,7 +64,7 @@ colorbar(orientation='horizontal')
 title(url)
 print 'elapsed time= %d seconds' % (time.time()-time0)
 
-
+# Uncomment to show matplotlib visualization.
 # show()
 
 print "Saving figure as " +  imagefilename
@@ -83,6 +79,7 @@ for colli,coll in enumerate(contour.collections):
     for p in coll.get_paths():
         p.simplify_threshold = 0.0
         polys = p.to_polygons()
+        # Don't append an empty polygon to the geometry or it will screw up the indexing.
         if polys:
             geoms.append( (Polygon(polys[0],polys[1:] ),vmin,vmax))
 
