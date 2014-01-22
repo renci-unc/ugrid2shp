@@ -9,6 +9,7 @@ import sys
 
 imagefilename='test.png'
 shapefilename='test.shp'
+prjfilename = 'test.prj'
 titl='ADCIRC';
 url='twm_example.nc'
 #url='http://opendap.renci.org:1935/thredds/dodsC/ASGS/andrea/08/nc6b/blueridge.renci.org/fivemem/nhcConsensus/maxele.63.nc'
@@ -91,7 +92,13 @@ with fiona.open(shapefilename, 'w', 'ESRI Shapefile', schema) as c:
             'geometry': mapping(geom[0]),
             'properties': {'vmin': geom[1], 'vmax': geom[2]},
         })
+
 print 'elapsed time= %d seconds' % (time.time()-time0)
+print "Writing prj to " + prjfilename
+prj_string = '''GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]]'''
+prj_file = open(prjfilename, 'w')
+prj_file.write(prj_string)
+prj_file.close()
 
 # try reading the Shapefile back in 
 c = fiona.open(shapefilename, 'r')
