@@ -18,7 +18,7 @@ On a mac using the homebrew package manager (http://brew.sh/), the homebrew/scie
 C libraries needed for building netcdf4-python, but be sure to confirm OPeNDAP compatibility if taking this approach.
 
 ###Helpful hints:
-Run `$python adcirc_netcdf_viz.py -h` for help
+Run `$ python adcirc_netcdf_viz.py -h` for help
 
 ###Example usage:
 
