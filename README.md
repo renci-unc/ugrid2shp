@@ -17,6 +17,9 @@ Using a netCDF4 file output from ADCIRC or Adcirc-lite, this tool allows a user 
 On a mac using the homebrew package manager (http://brew.sh/), the homebrew/science tap (https://github.com/Homebrew/homebrew-science) can be used to simplify installation of the requisite HDF5 and netCDF4
 C libraries needed for building netcdf4-python, but be sure to confirm OPeNDAP compatibility if taking this approach.
 
+###Helpful hints:
+Run `$python adcirc_netcdf_viz.py -h` for help
+
 ###Example usage:
 
     $ python adcirc_netcdf_viz.py -n twm_example -o test -v maxele_prediction -a 0 -b 11
