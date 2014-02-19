@@ -17,3 +17,29 @@ Using a netCDF4 file output from ADCIRC or Adcirc-lite, this tool allows a user 
 On a mac using the homebrew package manager (http://brew.sh/), the homebrew/science tap (https://github.com/Homebrew/homebrew-science) can be used to simplify installation of the requisite HDF5 and netCDF4
 C libraries needed for building netcdf4-python, but be sure to confirm OPeNDAP compatibility if taking this approach.
 
+###Example usage:
+
+    $ python adcirc_netcdf_viz.py -n twm_example -o test -v maxele_prediction -a 0 -b 11
+
+###Example output:
+
+    Getting data from url=twm_example.nc...
+    [u'x', u'y', u'maxele', u'maxele_prediction', u'element', u'bnd']
+    Shape of lon is (608114)
+    Shape of lat is (608114)
+    Shape of nv is (1200767, 3)
+    Max of lon is (-60)
+    Max of lat is (45)
+    Max of nv is (608113)
+    elapsed time= 1 seconds
+    var[0]: -99999.0
+    Triangulating ...
+    elapsed time= 0 seconds
+    Making contours in figure ...
+    Calling tricontourf  ...
+    elapsed time= 2 seconds
+    Saving figure as test.png
+    Extracting contour shapes from tricontourf object ...
+    Writing shapes to test.shp
+    elapsed time= 16 seconds
+    Writing prj to test.prj
