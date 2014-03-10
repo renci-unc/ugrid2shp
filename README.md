@@ -1,7 +1,7 @@
 netCDF4-python-ADCIRC-shapefile
 ===============================
 
-Using a netCDF4 file output from ADCIRC or Adcirc-lite, this tool allows a user to visualize a grid with a contoured layer in matplotlib, and output that view to an ESRI Shapefile using Shapely and Fiona.
+This tool allows a user to visualize a CF-UGRID compliant netCDF file with a contoured layer in matplotlib, and output that view to an ESRI Shapefile using Shapely and Fiona.
 
 
 ###System Requirements
@@ -14,15 +14,17 @@ Using a netCDF4 file output from ADCIRC or Adcirc-lite, this tool allows a user 
 - netcdf4-python (netCDF4/libhdf5 C libraries must be installed first; https://pypi.python.org/pypi/netCDF4)
 
 ###Notes: 
-On a mac using the homebrew package manager (http://brew.sh/), the homebrew/science tap (https://github.com/Homebrew/homebrew-science) can be used to simplify installation of the requisite HDF5 and netCDF4
-C libraries needed for building netcdf4-python, but be sure to confirm OPeNDAP compatibility if taking this approach.
+On a mac using the homebrew package manager (http://brew.sh/), the homebrew/science tap (https://github.com/Homebrew/homebrew-science) can be used to simplify installation of the HDF5 and netCDF4 C libraries needed for building netcdf4-python, but be sure to confirm OPeNDAP compatibility if taking this approach. **[how does one confirm this?]**
 
 ###Helpful hints:
 Run `$ python adcirc_netcdf_viz.py -h` for help
 
 ###Example usage:
 
+**[point this example at a maxele file on RENCI's THREDDs server...]**
+
     $ python adcirc_netcdf_viz.py -n twm_example -o test -v maxele_prediction -a 0 -b 11
+
 
 ###Example output:
 
@@ -46,4 +48,6 @@ Run `$ python adcirc_netcdf_viz.py -h` for help
     Writing shapes to test.shp
     elapsed time= 16 seconds
     Writing prj to test.prj
+
+
 
