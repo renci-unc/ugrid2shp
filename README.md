@@ -47,6 +47,3 @@ Run `$ python adcirc_netcdf_viz.py -h` for help
     elapsed time= 16 seconds
     Writing prj to test.prj
 
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/jessebikman/netcdf4-python-adcirc-shapefile/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
