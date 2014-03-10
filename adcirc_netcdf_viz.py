@@ -16,15 +16,17 @@ def main(argv):
     NcVariableName='zeta_max'
     MinVal = 0
     MaxVal = 11
+    AxisLims = []
 
     try:
-        opts, args = getopt.getopt(argv,"hn:o:v:a:b:",["ncfilename=","outfile=", "NcVariableName=", "MinVal=", "MaxVal="])
+        opts, args = getopt.getopt(argv,"hn:o:v:a:b:s:",["ncfilename=","outfile=", "NcVariableName=", "MinVal=", "MaxVal=", "AxisLims="])
     except getopt.GetoptError:
-        print 'adcirc_netcdf_viz.py -n <ncfilename> -o <outfile> -v <NcVariableName> -a <MinVal> -b <MaxVal>'
+        print 'Option error: '
+        print 'adcirc_netcdf_viz.py -n <ncfilename> -o <outfile> -v <NcVariableName> -a <MinVal> -b <MaxVal> -s <AxisLims>'
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print 'adcirc_netcdf_viz.py -n <ncfilename> -o <outfile> -v <NcVariableName> -a <MinVal> -b <MaxVal>'
+            print 'adcirc_netcdf_viz.py -n <ncfilename> -o <outfile> -v <NcVariableName> -a <MinVal> -b <MaxVal> -s <AxisLims>'
             sys.exit()
         elif opt in ("-n", "--ncfilename"):
             ncfilename = arg
@@ -36,6 +38,8 @@ def main(argv):
             MinVal = arg
         elif opt in ("-b", "--MaxVal"):
             MaxVal = arg
+        elif opt in ("-s", "--AxisLims"):
+            AxisLims = arg
 
     MinVal = float(MinVal)
     MaxVal = float(MaxVal)
@@ -91,6 +95,11 @@ def main(argv):
     colorbar(orientation='horizontal')
     title(url)
     print 'elapsed time= %d seconds' % (time.time()-time0)
+    # This takes the axis limit string arg and converts it to a list. Then it converts that list to floats.
+    if AxisLims != []:
+        AxisLimsSplit = AxisLims.split(', ')
+        AxisLims = map(float, AxisLimsSplit)
+        axis(AxisLims)
 
     # Uncomment to show matplotlib visualization.
     # show()
