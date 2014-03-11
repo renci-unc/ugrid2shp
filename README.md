@@ -58,5 +58,5 @@ Run `$ python adcirc_netcdf_viz.py -h` for help
     Writing shapes to test.shp
     Writing prj to test.prj
     
-### test.png contains a screenshot of the figure plotted with matplotlib
+### Open test.png to view a screenshot of the figure plotted with matplotlib:
 ![](https://raw.github.com/jessebikman/netCDF4-ugrid-shapefile-gen/master/test.png)
