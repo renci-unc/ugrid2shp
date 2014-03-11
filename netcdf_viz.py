@@ -77,16 +77,12 @@ def main(argv):
     #istart=1
     #var = nc[vname][istart,:]    
     var = nc[vname][:]
-    print 'elapsed time= %d seconds' % (time.time()-time0)
     print "var[0]: " + str(var[0])
 
     print 'Triangulating ...'
-    time0=time.time()
     tri = Tri.Triangulation(lon,lat, triangles=nv)
-    print 'elapsed time= %d seconds' % (time.time()-time0)
 
     print 'Making contours in figure ...'
-    time0=time.time()
     figure(figsize=(10,10))
     subplot(111,aspect=(1.0/cos(mean(lat)*pi/180.0)))
     levels = linspace(MinVal, MaxVal)
@@ -94,7 +90,6 @@ def main(argv):
     contour = tricontourf(tri, var,levels=levels,shading='faceted')
     colorbar(orientation='horizontal')
     title(url)
-    print 'elapsed time= %d seconds' % (time.time()-time0)
     # This takes the axis limit string arg and converts it to a list. Then it converts that list to floats.
     if AxisLims != []:
         AxisLimsSplit = AxisLims.split(', ')
@@ -107,7 +102,6 @@ def main(argv):
     print "Saving figure as " +  imagefilename
     savefig(imagefilename)
 
-    time0=time.time()
     print 'Extracting contour shapes from tricontourf object ...'
     geoms = []
     # create list of tuples (geom, vmin, vmax)
@@ -129,7 +123,6 @@ def main(argv):
                 'properties': {'vmin': geom[1], 'vmax': geom[2]},
             })
 
-    print 'elapsed time= %d seconds' % (time.time()-time0)
     print "Writing prj to " + prjfilename
     prj_string = '''GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]]'''
     prj_file = open(prjfilename, 'w')

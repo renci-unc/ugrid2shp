@@ -1,4 +1,0 @@
-Test to verify that the example for a ADCIRC CF UGRID NetCDF4 file works properly.
-
->>> sys.argv[1:] = '-n twm_example -o test -v maxele_prediction -a 0 -b 11'
->>> netcdf_viz(sys.argv[1:])
