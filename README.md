@@ -37,8 +37,6 @@ Run `$ python adcirc_netcdf_viz.py -h` for help
 
 ###Example usage:
 
-**[point this example at a maxele file on RENCI's THREDDs server...]**
-
     $ python netcdf_viz.py -n  http://opendap.renci.org:1935/thredds/dodsC/ASGS/andrea/08/nc6b/blueridge.renci.org/fivemem/nhcConsensus/maxele.63.nc -o test -v zeta_max -a 0 -b 11
 
 
