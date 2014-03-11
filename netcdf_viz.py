@@ -47,14 +47,15 @@ def main(argv):
     shapefilename=outfile+'.shp'
     prjfilename=outfile+'.prj'
 
+    url = ncfilename
     titl='ADCIRC';
-    url=ncfilename+'.nc'
+    if url[-3:] != '.nc':
+        url=url+'.nc'
     vname=NcVariableName
     start=datetime.datetime(2008, 9, 13, 6, 0, 0)
 
     print 'Getting data from url=%s... ' % url
 
-    time0=time.time()
     nc=netCDF4.Dataset(url).variables
     nc.keys()
     print nc.keys()
