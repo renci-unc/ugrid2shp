@@ -11,18 +11,18 @@ This tool allows a user to visualize a CF-UGRID compliant netCDF file with a con
 - Fiona (Geospatial Data Abstraction Library (GDAL) OGR interface
     - https://pypi.python.org/pypi/Fiona
 - netCDF4 C library 
-    - Install with opendap enabled
+    - Be sure to install this with OPeNDAP enabled in the configuration.
 - libhdf5 C library 
-    - dependency of netCDF4
+    - Dependency for NetCDF4.
     - http://www.unidata.ucar.edu/downloads/netcdf/index.jsp
 - libcurl 
-    - Dependency of opendap 
+    - OPeNDAP dependency. 
     - http://curl.haxx.se/libcurl/
 - netcdf4-python 
-    - netCDF4/libhdf5 C libraries must be installed before installing netcdf4-python
+    - The netCDF4/libhdf5 C libraries must be installed before installing netcdf4-python.
     - https://pypi.python.org/pypi/netCDF4
 - shell-doctest 
-    - needed to run doc tests
+    - This python library is needed to run doc tests.
     - https://code.google.com/p/shell-doctest/
     - Install with `pip install https://pypi.python.org/packages/source/s/shelldoctest/shelldoctest-0.2.tar.gz#md5=94090432329f8db0fc5a3227bd2dfde9`
 
