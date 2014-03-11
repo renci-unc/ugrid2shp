@@ -1,4 +1,4 @@
-netCDF4-python-ADCIRC-shapefile
+ netCDF4-ugrid-shapefile-gen
 ===============================
 
 This tool allows a user to visualize a CF-UGRID compliant netCDF file with a contoured layer in matplotlib, and output that view to an ESRI Shapefile using Shapely and Fiona.
