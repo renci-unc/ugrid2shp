@@ -6,12 +6,25 @@ This tool allows a user to visualize a CF-UGRID compliant netCDF file with a con
 
 ###System Requirements
 - Python 2.7.x
-- Shapely (https://pypi.python.org/pypi/Shapely/1.3.0)
-- Fiona (Geospatial Data Abstraction Library (GDAL) OGR interface; https://pypi.python.org/pypi/Fiona)
-- netCDF4 C library (with opendap enabled, if opendap/remote functionality is desired)
-- libhdf5 C library (dependency of netCDF4; http://www.unidata.ucar.edu/downloads/netcdf/index.jsp)
-- libcurl (dependency of opendap; http://curl.haxx.se/libcurl/)
-- netcdf4-python (netCDF4/libhdf5 C libraries must be installed first; https://pypi.python.org/pypi/netCDF4)
+- Shapely 
+    - https://pypi.python.org/pypi/Shapely/1.3.0
+- Fiona (Geospatial Data Abstraction Library (GDAL) OGR interface
+    - https://pypi.python.org/pypi/Fiona
+- netCDF4 C library 
+    - Install with opendap enabled
+- libhdf5 C library 
+    - dependency of netCDF4
+    - http://www.unidata.ucar.edu/downloads/netcdf/index.jsp
+- libcurl 
+    - Dependency of opendap 
+    - http://curl.haxx.se/libcurl/
+- netcdf4-python 
+    - netCDF4/libhdf5 C libraries must be installed before installing netcdf4-python
+    - https://pypi.python.org/pypi/netCDF4
+- shell-doctest 
+    - needed to run doc tests
+    - https://code.google.com/p/shell-doctest/
+    - Install with `pip install https://pypi.python.org/packages/source/s/shelldoctest/shelldoctest-0.2.tar.gz#md5=94090432329f8db0fc5a3227bd2dfde9`
 
 ###Notes: 
 On a mac using the homebrew package manager (http://brew.sh/), the homebrew/science tap (https://github.com/Homebrew/homebrew-science) can be used to simplify installation of the HDF5 and netCDF4 C libraries needed for building netcdf4-python, but be sure to confirm OPeNDAP compatibility if taking this approach. **[how does one confirm this?]**
