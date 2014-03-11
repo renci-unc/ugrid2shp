@@ -58,5 +58,10 @@ Run `$ python adcirc_netcdf_viz.py -h` for help
     Writing shapes to test_thredds.shp
     Writing prj to test_thredds.prj
     
+<<<<<<< HEAD
 ### Open test_thredds.png to view a screenshot of the figure plotted with matplotlib:
 ![](https://raw.github.com/jessebikman/netCDF4-ugrid-shapefile-gen/master/test_thredds.png)
+=======
+### Open test.png to view a screenshot of the figure plotted with matplotlib:
+![](https://raw.github.com/jessebikman/netCDF4-ugrid-shapefile-gen/master/test.png)
+>>>>>>> FETCH_HEAD
