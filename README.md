@@ -39,31 +39,24 @@ Run `$ python adcirc_netcdf_viz.py -h` for help
 
 **[point this example at a maxele file on RENCI's THREDDs server...]**
 
-    $ python adcirc_netcdf_viz.py -n twm_example -o test -v maxele_prediction -a 0 -b 11
+    $ python netcdf_viz.py -n  http://opendap.renci.org:1935/thredds/dodsC/ASGS/andrea/08/nc6b/blueridge.renci.org/fivemem/nhcConsensus/maxele.63.nc -o test -v zeta_max -a 0 -b 11
 
 
 ###Example output:
-
-    Getting data from url=twm_example.nc...
-    [u'x', u'y', u'maxele', u'maxele_prediction', u'element', u'bnd']
-    Shape of lon is (608114)
-    Shape of lat is (608114)
-    Shape of nv is (1200767, 3)
+    Getting data from url=http://opendap.renci.org:1935/thredds/dodsC/ASGS/andrea/08/nc6b/blueridge.renci.org/fivemem/nhcConsensus/maxele.63.nc...
+    [u'time', u'x', u'y', u'element', u'adcirc_mesh', u'neta', u'nvdll', u'_nc4_non_coord_max_nvdll', u'ibtypee', u'nbdv', u'nvel', u'nvell', u'_nc4_non_coord_max_nvell', u'ibtype', u'nbvv', u'depth', u'zeta_max']
+    Shape of lon is (295328)
+    Shape of lat is (295328)
+    Shape of nv is (575512, 3)
     Max of lon is (-60)
     Max of lat is (45)
-    Max of nv is (608113)
-    elapsed time= 1 seconds
-    var[0]: -99999.0
+    Max of nv is (295327)
+    var[0]: 0.749472089824
     Triangulating ...
-    elapsed time= 0 seconds
     Making contours in figure ...
     Calling tricontourf  ...
-    elapsed time= 2 seconds
     Saving figure as test.png
     Extracting contour shapes from tricontourf object ...
     Writing shapes to test.shp
-    elapsed time= 16 seconds
     Writing prj to test.prj
-
-
-
+    
