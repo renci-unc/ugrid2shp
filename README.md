@@ -11,10 +11,12 @@ This tool allows a user to visualize a CF-UGRID compliant netCDF file with a con
 - Fiona (Geospatial Data Abstraction Library (GDAL) OGR interface
     - https://pypi.python.org/pypi/Fiona
 - netCDF4 C library 
-    - Be sure to install this with OPeNDAP enabled in the configuration.
+    - http://www.unidata.ucar.edu/downloads/netcdf/index.jsp
+    - See notes section if installing on a mac - there is an easier way.
 - libhdf5 C library 
     - Dependency for NetCDF4.
-    - http://www.unidata.ucar.edu/downloads/netcdf/index.jsp
+    - http://www.hdfgroup.org/HDF5/release/obtain5.html
+    - See notes section if installing on a mac - there is an easier way.
 - libcurl 
     - OPeNDAP dependency. 
     - http://curl.haxx.se/libcurl/
@@ -27,7 +29,8 @@ This tool allows a user to visualize a CF-UGRID compliant netCDF file with a con
     - Install with `pip install https://pypi.python.org/packages/source/s/shelldoctest/shelldoctest-0.2.tar.gz#md5=94090432329f8db0fc5a3227bd2dfde9`
 
 ###Notes: 
-On a mac using the homebrew package manager (http://brew.sh/), the homebrew/science tap (https://github.com/Homebrew/homebrew-science) can be used to simplify installation of the HDF5 and netCDF4 C libraries needed for building netcdf4-python, but be sure to confirm OPeNDAP compatibility if taking this approach. **[how does one confirm this?]**
+On a mac using the homebrew package manager (http://brew.sh/), the homebrew/science tap (https://github.com/Homebrew/homebrew-science) can be used to simplify installation of the HDF5 and netCDF4 C libraries needed for building netcdf4-python. 
+After installing homebrew, add the homebrew-science tap, then install the HDF5 and netCDF4 C libraries from the homebrew-science tap
 
 ###Helpful hints:
 Run `$ python adcirc_netcdf_viz.py -h` for help
