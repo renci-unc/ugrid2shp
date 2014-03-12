@@ -11,7 +11,7 @@ import getopt
 def main(argv):
     
     # Defaults parameter values.
-    ncfilename='temp'
+    ncfilename=None
     outfile='outShape'
     NcVariableName='zeta_max'
     MinVal = 0
@@ -47,6 +47,8 @@ def main(argv):
     shapefilename=outfile+'.shp'
     prjfilename=outfile+'.prj'
 
+    if ncfilename == None:
+        raise Exception("You must pass a netCDF4 filename as an argument. Use the -n or --ncfilename argument to do this.")
     url = ncfilename
     titl='ADCIRC';
     if url[-3:] != '.nc':
