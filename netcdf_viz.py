@@ -22,7 +22,7 @@ def main(argv):
         opts, args = getopt.getopt(argv,"hn:o:v:a:b:s:",["ncfilename=","outfile=", "NcVariableName=", "MinVal=", "MaxVal=", "AxisLims="])
     except getopt.GetoptError:
         print 'Option error: '
-        print 'adcirc_netcdf_viz.py -n <ncfilename> -o <outfile> -v <NcVariableName> -a <MinVal> -b <MaxVal> -s <AxisLims>'
+        print 'Run adcirc_netcdf_viz.py -h for help'
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
