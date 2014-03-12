@@ -17,7 +17,7 @@ def main(argv):
     MinVal = 0
     MaxVal = 11
     AxisLims = []
-    NumberOfSamples = floor(MaxVal - MinVal)
+    NumberOfSamples = int(MaxVal - MinVal)
 
     try:
         opts, args = getopt.getopt(argv,"hn:o:v:a:b:c:s:",["ncfilename=","outfile=", "NcVariableName=", "MinVal=", "MaxVal=", "NumberOfSamples=", "AxisLims="])
@@ -40,7 +40,7 @@ def main(argv):
         elif opt in ("-b", "--MaxVal"):
             MaxVal = arg
         elif opt in ("-c", "--NumberOfSamples"):
-            NumberOfSamples = arg
+            NumberOfSamples = int(arg)
         elif opt in ("-s", "--AxisLims"):
             AxisLims = arg
 
