@@ -1,6 +1,6 @@
 #!/usr/local/bin/python
 """
-$ python netcdf_viz.py -n twm_example -o test_local -v maxele_prediction -a 0 -b 11
+$ python netcdf_viz.py -n twm_example -o test_local -v maxele_prediction -a 0 -b 11 -s '-82, -72, 29, 39'
 Getting data from url=twm_example.nc...
 [u'x', u'y', u'maxele', u'maxele_prediction', u'element', u'bnd']
 Shape of lon is (608114)

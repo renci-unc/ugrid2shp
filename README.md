@@ -37,12 +37,12 @@ Run `$ python adcirc_netcdf_viz.py -h` for help
 
 ###Example usage:
 
-    $ python netcdf_viz.py -n  http://opendap.renci.org:1935/thredds/dodsC/ASGS/andrea/08/nc6b/blueridge.renci.org/fivemem/nhcConsensus/maxele.63.nc -o test_thredds -v zeta_max -a 0 -b 11
+    $ python netcdf_viz.py -n  http://opendap.renci.org:1935/thredds/dodsC/ASGS/andrea/08/nc6b/blueridge.renci.org/fivemem/nhcConsensus/maxele.63.nc -o test -v zeta_max -a 0 -b 11 -s "-82, -72, 29, 39"
 
 
 ###Example output:
-    Getting data from url=http://opendap.renci.org:1935/thredds/dodsC/ASGS/andrea/08/nc6b/blueridge.renci.org/fivemem/nhcConsensus/maxele.63.nc...
-    [u'time', u'x', u'y', u'element', u'adcirc_mesh', u'neta', u'nvdll', u'_nc4_non_coord_max_nvdll', u'ibtypee', u'nbdv', u'nvel', u'nvell', u'_nc4_non_coord_max_nvell', u'ibtype', u'nbvv', u'depth', u'zeta_max']
+    Getting data from url=http://opendap.renci.org:1935/thredds/dodsC/ASGS/andrea/08/nc6b/blueridge.renci.org/fivemem/nhcConsensus/maxele.63.nc...    
+    [u'time', u'x', u'y', u'element', u'adcirc_mesh', u'neta', u'nvdll', u'_nc4_non_coord_max_nvdll', u'ibtypee', u'nbdv', u'nvel', u'nvell', u'_nc4_non_coord_max_nvell',     u'ibtype', u'nbvv', u'depth', u'zeta_max']
     Shape of lon is (295328)
     Shape of lat is (295328)
     Shape of nv is (575512, 3)
@@ -53,10 +53,9 @@ Run `$ python adcirc_netcdf_viz.py -h` for help
     Triangulating ...
     Making contours in figure ...
     Calling tricontourf  ...
-    Saving figure as test_thredds.png
+    Saving figure as test.png
     Extracting contour shapes from tricontourf object ...
-    Writing shapes to test_thredds.shp
-    Writing prj to test_thredds.prj
-    
+    Writing shapes to test.shp
+    Writing prj to test.prj
 ### Open test_thredds.png to view a screenshot of the figure plotted with matplotlib:
 ![](https://raw.github.com/jessebikman/netCDF4-ugrid-shapefile-gen/master/test_thredds.png)
