@@ -17,16 +17,17 @@ def main(argv):
     MinVal = 0
     MaxVal = 11
     AxisLims = []
+    NumberOfSamples = floor(MaxVal - MinVal)
 
     try:
-        opts, args = getopt.getopt(argv,"hn:o:v:a:b:s:",["ncfilename=","outfile=", "NcVariableName=", "MinVal=", "MaxVal=", "AxisLims="])
+        opts, args = getopt.getopt(argv,"hn:o:v:a:b:c:s:",["ncfilename=","outfile=", "NcVariableName=", "MinVal=", "MaxVal=", "NumberOfSamples=", "AxisLims="])
     except getopt.GetoptError:
         print 'Option error: '
         print 'Run adcirc_netcdf_viz.py -h for help'
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print 'adcirc_netcdf_viz.py -n <ncfilename> -o <outfile> -v <NcVariableName> -a <MinVal> -b <MaxVal> -s <AxisLims>'
+            print 'adcirc_netcdf_viz.py -n <ncfilename> -o <outfile> -v <NcVariableName> -a <MinVal> -b <MaxVal> -c <NumberOfSamples> -s <AxisLims>'
             sys.exit()
         elif opt in ("-n", "--ncfilename"):
             ncfilename = arg
@@ -38,6 +39,8 @@ def main(argv):
             MinVal = arg
         elif opt in ("-b", "--MaxVal"):
             MaxVal = arg
+        elif opt in ("-c", "--NumberOfSamples"):
+            NumberOfSamples = arg
         elif opt in ("-s", "--AxisLims"):
             AxisLims = arg
 
@@ -88,7 +91,7 @@ def main(argv):
     print 'Making contours in figure ...'
     figure(figsize=(10,10))
     subplot(111,aspect=(1.0/cos(mean(lat)*pi/180.0)))
-    levels = linspace(MinVal, MaxVal)
+    levels = linspace(MinVal, MaxVal, num=NumberOfSamples)
     print 'Calling tricontourf  ...'
     contour = tricontourf(tri, var,levels=levels,shading='faceted')
     colorbar(orientation='horizontal')
