@@ -18,16 +18,17 @@ def main(argv):
     MaxVal = 11
     AxisLims = []
     NumberOfSamples = int(MaxVal - MinVal)
+    Tflag = False
 
     try:
-        opts, args = getopt.getopt(argv,"hn:o:v:a:b:c:s:",["ncfilename=","outfile=", "NcVariableName=", "MinVal=", "MaxVal=", "NumberOfSamples=", "AxisLims="])
+        opts, args = getopt.getopt(argv,"hn:o:v:a:b:c:s:t",["ncfilename=","outfile=", "NcVariableName=", "MinVal=", "MaxVal=", "NumberOfSamples=", "AxisLims="])
     except getopt.GetoptError:
         print 'Option error: '
         print 'Run adcirc_netcdf_viz.py -h for help'
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print 'adcirc_netcdf_viz.py -n <ncfilename> -o <outfile> -v <NcVariableName> -a <MinVal> -b <MaxVal> -c <NumberOfSamples> -s <AxisLims>'
+            print 'adcirc_netcdf_viz.py -n <ncfilename> -o <outfile> -v <NcVariableName> -a <MinVal> -b <MaxVal> -c <NumberOfSamples> -s <AxisLims> -t (to toggle time)'
             sys.exit()
         elif opt in ("-n", "--ncfilename"):
             ncfilename = arg
@@ -43,6 +44,8 @@ def main(argv):
             NumberOfSamples = int(arg)
         elif opt in ("-s", "--AxisLims"):
             AxisLims = arg
+        elif opt in ("-t"):
+            Tflag = True
 
     MinVal = float(MinVal)
     MaxVal = float(MaxVal)
@@ -77,14 +80,16 @@ def main(argv):
     print "Max of lat is (%i)" % lat.max()
     print "Max of nv is (%i)" % nv.max()
 
-    # time_var = nc['time']
-    # dtime = netCDF4.num2date(time_var[:],time_var.units)
-    #istart = netCDF4.date2index(start,time_var,select='nearest')
-    #istart=1
-    #var = nc[vname][istart,:]    
     var = nc[vname][:]
-    print "var[0]: " + str(var[0])
 
+    if Tflag == True:
+        time_var = nc['time']
+        dtime = netCDF4.num2date(time_var[:],time_var.units)
+        istart = netCDF4.date2index(start,time_var,select='nearest')
+        istart=1
+        var = nc[vname][istart,:]    
+    
+    print "var[0]: " + str(var[0])
     print 'Triangulating ...'
     tri = Tri.Triangulation(lon,lat, triangles=nv)
 
