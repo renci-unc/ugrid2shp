@@ -21,14 +21,14 @@ def main(argv):
     Tflag = False
 
     try:
-        opts, args = getopt.getopt(argv,"hn:o:v:a:b:c:s:t",["ncfilename=","outfile=", "NcVariableName=", "MinVal=", "MaxVal=", "NumberOfSamples=", "AxisLims="])
+        opts, args = getopt.getopt(argv,"hn:o:v:a:b:c:s:t:",["ncfilename=","outfile=", "NcVariableName=", "MinVal=", "MaxVal=", "NumberOfSamples=", "AxisLims=", "TimeStepNum"])
     except getopt.GetoptError:
         print 'Option error: '
         print 'Run adcirc_netcdf_viz.py -h for help'
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print 'adcirc_netcdf_viz.py -n <ncfilename> -o <outfile> -v <NcVariableName> -a <MinVal> -b <MaxVal> -c <NumberOfSamples> -s <AxisLims> -t (to toggle time)'
+            print 'adcirc_netcdf_viz.py -n <ncfilename> -o <outfile> -v <NcVariableName> -a <MinVal> -b <MaxVal> -c <NumberOfSamples> -s <AxisLims> -t TimeStepNum'
             sys.exit()
         elif opt in ("-n", "--ncfilename"):
             ncfilename = arg
@@ -44,8 +44,9 @@ def main(argv):
             NumberOfSamples = int(arg)
         elif opt in ("-s", "--AxisLims"):
             AxisLims = arg
-        elif opt in ("-t"):
+        elif opt in ("-t", "--TimeStepNum"):
             Tflag = True
+            TimeStepNum = int(arg)
 
     MinVal = float(MinVal)
     MaxVal = float(MaxVal)
@@ -60,7 +61,7 @@ def main(argv):
     if url[-3:] != '.nc':
         url=url+'.nc'
     vname=NcVariableName
-    start=datetime.datetime(2008, 9, 13, 6, 0, 0)
+    
 
     print 'Getting data from url=%s... ' % url
 
@@ -83,11 +84,17 @@ def main(argv):
     var = nc[vname][:]
 
     if Tflag == True:
+        start=datetime.datetime(2008, 9, 13, 6, 0, 0)
         time_var = nc['time']
-        dtime = netCDF4.num2date(time_var[:],time_var.units)
-        istart = netCDF4.date2index(start,time_var,select='nearest')
-        istart=1
-        var = nc[vname][istart,:]    
+        print "The time chosen is: "
+        print time_var[TimeStepNum]
+        print "Units are: "
+        print time_var.units
+        if "since" in time_var.units:
+            since_when = time_var.units.rsplit(None, 1)[-1]
+            since_when_string = eval("time_var."+since_when)
+            print since_when + " is " + since_when_string
+        var = nc[vname][TimeStepNum,:]
     
     print "var[0]: " + str(var[0])
     print 'Triangulating ...'
