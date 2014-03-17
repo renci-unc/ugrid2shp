@@ -33,7 +33,7 @@ On a mac using the homebrew package manager (http://brew.sh/), the homebrew/scie
 After installing homebrew, add the homebrew-science tap, then install the HDF5 and netCDF4 C libraries from the homebrew-science tap
 
 ###Helpful hints:
-Run `$ python adcirc_netcdf_viz.py -h` for help
+Run `$ python netcdf_viz.py -h` for help
 
 ###Example usage:
 
