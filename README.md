@@ -59,7 +59,9 @@ After installing homebrew, add the homebrew-science tap, then install the HDF5 a
     $ python ugrid2shp.py -n $url 
 ![](test1.png)
 
-    $ python ugrid2shp.py -n $url 
+Zoom in to coast:
+    $ python ugrid2shp.py -n $url -l '-78 , -75 , 34.5 , 36.5'
+![](test2.png)
 
 
 
