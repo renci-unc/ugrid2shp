@@ -59,5 +59,7 @@ After installing homebrew, add the homebrew-science tap, then install the HDF5 a
     $ python ugrid2shp.py -n $url 
 ![](test1.png)
 
+    $ python ugrid2shp.py -n $url 
 
-### Open test_thredds.png to view a screenshot of the figure plotted with matplotlib:
+
+
