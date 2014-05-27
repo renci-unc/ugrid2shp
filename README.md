@@ -33,7 +33,7 @@ After installing homebrew, add the homebrew-science tap, then install the HDF5 a
 
 ###Commandline arguments:
 
-ugrid2shp.py -h -s -w -n <ncfilename> -o <outfile> -v <NcVariableName> -a <MinVal> -b <MaxVal> -c <NumLevels> -l <AxisLims> -t <TimeStepNum>
+	ugrid2shp.py -h -s -w -n \<ncfilename\> -o \<outfile\> -v \<NcVariableName\> -a \<MinVal\> -b \<MaxVal\> -c \<NumLevels\> -l \<AxisLims\> -t \<TimeStepNum\>
 		
 	where:	-h | --Help				the text you are looking at right now
 		-n | --Ncfilename	<ncfilename> 	netCDF file to read from, or a URL to an OPeNDAP file [maxele.63.nc]
@@ -54,28 +54,10 @@ ugrid2shp.py -h -s -w -n <ncfilename> -o <outfile> -v <NcVariableName> -a <MinVa
 		--ProjStr 'GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]]' 
  
 ###Example usage:
+
     $ url=http://opendap.renci.org:1935/thredds/dodsC/ASGS/andrea/08/nc6b/blueridge.renci.org/fivemem/nhcConsensus/maxele.63.nc
-    $ python ugrid2shp.py -n $url -o test_thredds -v zeta_max -a 0 -b 10 -l '-82, -72, 29, 39'
-
-###Running Tests:
-http://opendap.renci.org:1935/thredds/dodsC/ASGS/andrea/08/nc6b/blueridge.renci.org/fivemem/nhcConsensus/maxele.63.nc 
-
-###Example output:
-    Getting data from url=http://opendap.renci.org:1935/thredds/dodsC/ASGS/andrea/08/nc6b/blueridge.renci.org/fivemem/nhcConsensus/maxele.63.nc...    
-    [u'time', u'x', u'y', u'element', u'adcirc_mesh', u'neta', u'nvdll', u'_nc4_non_coord_max_nvdll', u'ibtypee', u'nbdv', u'nvel', u'nvell', u'_nc4_non_coord_max_nvell',     u'ibtype', u'nbvv', u'depth', u'zeta_max']
-    Shape of lon is (295328)
-    Shape of lat is (295328)
-    Shape of nv is (575512, 3)
-    Max of lon is (-60)
-    Max of lat is (45)
-    Max of nv is (295327)
-    var[0]: 0.749472089824
-    Triangulating ...
-    Making contours in figure ...
-    Calling tricontourf  ...
-    Saving figure as test_thredds.png
-    Extracting contour shapes from tricontourf object ...
-    Writing shapes to test_thredds.shp
-    Writing prj to test_thredds.prj
-### Open test_thredds.png to view a screenshot of the figure plotted with matplotlib:
+    $ python ugrid2shp.py -n $url 
 ![](https://raw.github.com/jessebikman/netCDF4-ugrid-shapefile-gen/master/test_thredds.png)
+
+
+### Open test_thredds.png to view a screenshot of the figure plotted with matplotlib:
