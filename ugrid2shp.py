@@ -149,7 +149,7 @@ def main(argv):
     if not Silent == True : print 'Calling tricontourf  ...'
     contour = tricontourf(tri, var,levels=levels,shading='faceted')
     colorbar(orientation='horizontal')
-    title(url)
+    #title(url)
     
     # This takes the axis limit string arg and converts it to a list. Then it converts that list to floats.
     if AxisLims != []:
