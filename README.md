@@ -57,7 +57,7 @@ After installing homebrew, add the homebrew-science tap, then install the HDF5 a
 
     $ url=http://opendap.renci.org:1935/thredds/dodsC/ASGS/andrea/08/nc6b/blueridge.renci.org/fivemem/nhcConsensus/maxele.63.nc
     $ python ugrid2shp.py -n $url 
-![](https://raw.github.com/jessebikman/netCDF4-ugrid-shapefile-gen/master/test_thredds.png)
+![](test1.png)
 
 
 ### Open test_thredds.png to view a screenshot of the figure plotted with matplotlib:
