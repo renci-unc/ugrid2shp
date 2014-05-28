@@ -1,5 +1,6 @@
 UgridShp
 old
-outShape*
+*.{prj,cpg,shx,shp,dbf}
 *~
+README.txt
 
