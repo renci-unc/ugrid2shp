@@ -6,7 +6,7 @@ This python code computes GIS shapefiles from a CF-UGRID compliant netCDF file. 
 ###System Requirements
 - Python 2.7.x
 - Shapely 
-    - https://pypi.python.org/pypi/Shapely/1.3.0
+    - https://pypi.python.org/pypi/Shapely
 - Fiona (Geospatial Data Abstraction Library (GDAL) OGR interface
     - https://pypi.python.org/pypi/Fiona
 - libcurl 
@@ -24,8 +24,7 @@ This python code computes GIS shapefiles from a CF-UGRID compliant netCDF file. 
     - https://pypi.python.org/pypi/netCDF4
 - shell-doctest 
     - This python library is needed to run doc tests.
-    - https://code.google.com/p/shell-doctest/
-    - Install with `pip install https://pypi.python.org/packages/source/s/shelldoctest/shelldoctest-0.2.tar.gz#md5=94090432329f8db0fc5a3227bd2dfde9`
+    - https://pypi.python.org/pypi/shelldoctest
 
 ###Notes: 
 On a mac using the homebrew package manager (http://brew.sh/), the homebrew/science tap (https://github.com/Homebrew/homebrew-science) can be used to simplify installation of the HDF5 and netCDF4 C libraries needed for building netcdf4-python. 
