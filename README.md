@@ -31,38 +31,50 @@ This python code computes GIS shapefiles from a CF-UGRID compliant netCDF file. 
 On a mac using the homebrew package manager (http://brew.sh/), the homebrew/science tap (https://github.com/Homebrew/homebrew-science) can be used to simplify installation of the HDF5 and netCDF4 C libraries needed for building netcdf4-python. 
 After installing homebrew, add the homebrew-science tap, then install the HDF5 and netCDF4 C libraries from the homebrew-science tap
 
-###Commandline arguments:
+###Usage:
 
-	ugrid2shp.py -h -s -w -n \<ncfilename\> -o \<outfile\> -v \<NcVariableName\> -a \<MinVal\> -b \<MaxVal\> -c \<NumLevels\> -l \<AxisLims\> -t \<TimeStepNum\>
+ugrid2shp.py -h -d -s -w -x -z -n <NcFileName|url> -o <OutFile> -v <NcVariableName> -a <MinVal> -b <MaxVal> -c <NumLevels> -l <AxisLims> -p <ProjectionString>
 		
 	where:	-h | --Help				the text you are looking at right now
-		-n | --Ncfilename	<ncfilename> 	netCDF file to read from, or a URL to an OPeNDAP file [maxele.63.nc]
-		-o | --Outfile		<outfilename> 	filename to write shapefile to [outShape]
+		-d | --Debug				display debugging diagnostics [False]
+		-s | --Silent				no screen diagnostic output [True]
 		-w | --WriteImage			write matplotlib image to a file <outfile>.png [False]
 		-x | --ShowImage			display matplotlib image, user must close before continuing [False]
+		-z | --NoZip				no zip file output [False]
+		-n | --NcFileName	<ncfilename> 	netCDF file to read from, or a URL to an OPeNDAP file [maxele.63.nc]
+		-o | --OutFile		<outfilename> 	filename to write shapefile to [outShape]
 		-v | --NcVarName	<NcVarName> 	netCDF variable name to render [zeta_max]
 		-a | --MinVal		<min value> 	smallest scalar value to render [0]
 		-b | --MaxVal		<max value> 	largest scalar value to render [10]
 		-c | --NumLevels	<num levels> 	number of contour levels [11]
 		-l | --AxisLims		<[x0 y0 x1 y1]> axis limits to clip to [full domain]
-		-t | --TimeStepNum	<time index> 	time step to render, in a time-domain file [1]
-		-s | --Silent				no screen diagnostic output [True]
+		-p | --ProjStr				Projection string for prj file;  see below.
  
 	A projection file (prj) is written containing the following:
 		GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]]
 	To specify a different projection string, pass in -p | --ProjStr <projstr>, where projstr is as in this example:
 		--ProjStr 'GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]]' 
- 
+
 ###Example usage:
 
-    $ url=http://opendap.renci.org:1935/thredds/dodsC/ASGS/andrea/08/nc6b/blueridge.renci.org/fivemem/nhcConsensus/maxele.63.nc
-    $ python ugrid2shp.py -n $url 
+    $ Define url=http://opendap.renci.org:1935/thredds/dodsC/ASGS/nam/2013112112/ec95d/hatteras.renci.org/cfsamp/namforecast/maxele.63.nc 
+    $ Run silently (-s) pointing to the url devined above (-n $url), and with the maximum scalar value set to 6 (-b 6) 
+    $ python ugrid2shp.py -s -n $url -b 6
+    $ The first image is the matplotlib figure.  The second is the shapefile in QGIS.  the colormaps are not the same, but the contour lines are in the same locations.
 ![](test1.png)
+![](QGIS_test1.png)
 
 Zoom in to coast:
 
     $ python ugrid2shp.py -n $url -l '-78 , -75 , 34.5 , 36.5'
 ![](test2.png)
+
+
+###Test URLs:
+	Coarse resolution ADCIRC grid: 
+ 		http://opendap.renci.org:1935/thredds/dodsC/ASGS/nam/2013112112/ec95d/hatteras.renci.org/cfsamp/namforecast/maxele.63.nc
+ 	Medium resolution ADCIRC grid: 
+ 		http://opendap.renci.org:1935/thredds/dodsC/ASGS/andrea/08/nc6b/blueridge.renci.org/fivemem/nhcConsensus/maxele.63.nc
 
 
 
