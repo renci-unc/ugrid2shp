@@ -33,7 +33,7 @@ After installing homebrew, add the homebrew-science tap, then install the HDF5 a
 
 ###Usage:
 
-ugrid2shp.py -h -d -s -w -x -z -n <NcFileName|url> -o <OutFile> -v <NcVariableName> -a <MinVal> -b <MaxVal> -c <NumLevels> -l <AxisLims> -p <ProjectionString>
+ugrid2shp.py -h -d -s -w -x -z -n \<NcFileName|url\> -o \<OutFile\> -v \<NcVariableName\> -a \<MinVal\> -b \<MaxVal\> -c \<NumLevels\> -l \<AxisLims\> -p \<ProjectionString\>
 		
 	where:	-h | --Help				the text you are looking at right now
 		-d | --Debug				display debugging diagnostics [False]
@@ -63,11 +63,6 @@ ugrid2shp.py -h -d -s -w -x -z -n <NcFileName|url> -o <OutFile> -v <NcVariableNa
     $ The first image is the matplotlib figure.  The second is the shapefile in QGIS.  the colormaps are not the same, but the contour lines are in the same locations.
 ![](test1.png)
 ![](QGIS_test1.png)
-
-Zoom in to coast:
-
-    $ python ugrid2shp.py -n $url -l '-78 , -75 , 34.5 , 36.5'
-![](test2.png)
 
 
 ###Test URLs:
