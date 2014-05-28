@@ -36,19 +36,19 @@ After installing homebrew, add the homebrew-science tap, then install the HDF5 a
 ugrid2shp.py -h -d -s -w -x -z -n \<NcFileName|url\> -o \<OutFile\> -v \<NcVariableName\> -a \<MinVal\> -b \<MaxVal\> -c \<NumLevels\> -l \<AxisLims\> -p \<ProjectionString\>
 		
 	where:	-h | --Help				the text you are looking at right now
-		-d | --Debug				display debugging diagnostics [False]
-		-s | --Silent				no screen diagnostic output [True]
-		-w | --WriteImage			write matplotlib image to a file <outfile>.png [False]
-		-x | --ShowImage			display matplotlib image, user must close before continuing [False]
-		-z | --NoZip				no zip file output [False]
-		-n | --NcFileName	<ncfilename> 	netCDF file to read from, or a URL to an OPeNDAP file [maxele.63.nc]
-		-o | --OutFile		<outfilename> 	filename to write shapefile to [outShape]
-		-v | --NcVarName	<NcVarName> 	netCDF variable name to render [zeta_max]
-		-a | --MinVal		<min value> 	smallest scalar value to render [0]
-		-b | --MaxVal		<max value> 	largest scalar value to render [10]
-		-c | --NumLevels	<num levels> 	number of contour levels [11]
-		-l | --AxisLims		<[x0 y0 x1 y1]> axis limits to clip to [full domain]
-		-p | --ProjStr				Projection string for prj file;  see below.
+			-d | --Debug				display debugging diagnostics [False]
+			-s | --Silent				no screen diagnostic output [True]
+			-w | --WriteImage			write matplotlib image to a file <outfile>.png [False]
+			-x | --ShowImage			display matplotlib image, user must close before continuing [False]
+			-z | --NoZip				no zip file output [False]
+			-n | --NcFileName	<ncfilename> 	netCDF file to read from, or a URL to an OPeNDAP file [maxele.63.nc]
+			-o | --OutFile		<outfilename> 	filename to write shapefile to [outShape]
+			-v | --NcVarName	<NcVarName> 	netCDF variable name to render [zeta_max]
+			-a | --MinVal		<min value> 	smallest scalar value to render [0]
+			-b | --MaxVal		<max value> 	largest scalar value to render [10]
+			-c | --NumLevels	<num levels> 	number of contour levels [11]
+			-l | --AxisLims		<[x0 y0 x1 y1]> axis limits to clip to [full domain]
+			-p | --ProjStr				Projection string for prj file;  see below.
  
 	A projection file (prj) is written containing the following:
 		GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]]
