@@ -119,7 +119,7 @@ def main(argv):
     # get timestamp
     ts = time.time()
     st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-    if not Silent == True : print "Create time " + st
+    if Debug == True : print "Create time " + st
 
     if ncfilename == None:
         raise Exception("You must pass a netCDF filename or url as an argument. Use the -n or --NcFileName argument to do this.")
