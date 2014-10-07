@@ -217,8 +217,12 @@ def main(argv):
             polys = p.to_polygons()
             # Don't append an empty polygon to the geometry or it will screw up the indexing.
             if polys:
+                # Don't append holes without at least three coordinates
+                for index, poly in reversed(list(enumerate(polys[1:], 1))):
+                    if poly.shape[0] < 3:
+                        del polys[index]
                 geoms.append( (Polygon(polys[0],polys[1:] ),vmin,vmax))
-    
+
     # this is the other meat, as per Rusty Holleman
     if not Silent == True : print "Writing shapes to " + shapefilename
     schema = { 'geometry': 'Polygon', 'properties': { 'vmin': 'float', 'vmax': 'float' } }
