@@ -130,7 +130,7 @@ def main(argv):
     if not Silent == True : print path+file
 
     # end of url must have .nc 
-    if url[-3:] != '.nc': url=url+'.nc'
+    # if url[-3:] != '.nc': url=url+'.nc'
     
     # get stuff from netCDF file
     if not Silent == True : print 'Getting data from %s... ' % url
