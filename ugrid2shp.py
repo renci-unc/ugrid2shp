@@ -153,6 +153,8 @@ def main(argv):
     var = vars[NcVarName]
     units=var.units
     data = vars[NcVarName][:]
+    if len(data.shape) > 1:
+        data = data[0, :]
     elems = vars['element'][:,:]-1  # Move to 0-indexing by subtracting 1
     titl='MatPlotLib plot of ' + NcVarName + ' in ' + file 
 	
