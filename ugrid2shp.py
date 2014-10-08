@@ -218,9 +218,7 @@ def main(argv):
             # Don't append an empty polygon to the geometry or it will screw up the indexing.
             if polys:
                 # Don't append holes without at least three coordinates
-                for index, poly in reversed(list(enumerate(polys[1:], 1))):
-                    if poly.shape[0] < 3:
-                        del polys[index]
+                polys[1:] = [poly for poly in polys[1:] if poly.shape[0] > 2]
                 geoms.append( (Polygon(polys[0],polys[1:] ),vmin,vmax))
 
     # this is the other meat, as per Rusty Holleman
