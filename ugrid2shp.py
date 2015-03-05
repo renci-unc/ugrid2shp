@@ -14,16 +14,22 @@ import netCDF4
 import datetime
 import time
 import sys
-import getopt
+import argparse
 import zipfile
 import os
 
 
-def usage():
-    return
+def parse_args():
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument('-d', '--debug',
+                        dest='debug',
+                        action='store_true',
+                        help='Display diagnostics')
+    return parser.parse_args('-h'.split())
 
 
-def main(argv):
+def main():
 
     # Default parameter values.
     ncfilename = 'maxele.63.nc'
@@ -37,7 +43,7 @@ def main(argv):
     WriteImage = False
     ShowImage = False
     WriteZip = True
-    Debug = False
+    debug = False
     ProjStr = 'GEOGCS["GCS_WGS_1984",' \
               'DATUM["D_WGS_1984",' \
               'SPHEROID["WGS_1984",6378137.0,298.257223563]],' \
@@ -52,7 +58,7 @@ def main(argv):
     # get timestamp
     ts = time.time()
     st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-    if Debug:
+    if debug:
         print "Create time " + st
 
     if not ncfilename:
@@ -77,7 +83,7 @@ def main(argv):
 
     nc = netCDF4.Dataset(url)
     vars = nc.variables
-    if Debug:
+    if debug:
         print vars.keys()
 
     # get some global attributes
@@ -95,7 +101,7 @@ def main(argv):
     elems = vars['element'][:, :] - 1  # Move to 0-indexing by subtracting 1
     plot_title = 'MatPlotLib plot of ' + NcVarName + ' in ' + ncfile
 
-    if Debug:
+    if debug:
         print "\n   Shape of lon is (%i)" % lon.shape
         print "   Shape of lat is (%i)" % lat.shape
         print "   Shape of nv is (%i, %i)" % elems.shape
@@ -223,4 +229,4 @@ def main(argv):
     # c = fiona.open(shapefilename, 'r')
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    main()
