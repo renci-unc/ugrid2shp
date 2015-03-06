@@ -19,73 +19,93 @@ import zipfile
 import os
 
 
-def parse_args():
+def parse_args(argv):
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-d', '--debug',
                         dest='debug',
                         action='store_true',
-                        help='display diagnostics')
+                        help='Display diagnostics.')
     parser.add_argument('-s', '--silent',
                         dest='silent',
                         action='store_true',
-                        help='no screen diagnostic output')
-    parser.add_argument('-w', '--write_image',
+                        help='No screen diagnostic output.')
+    parser.add_argument('-w', '--writeimage',
                         dest='write_image',
                         action='store_true',
-                        help='write matplotlib image to a file <outfile>.png')
-    parser.add_argument('-x', '--show_image',
+                        help='Write matplotlib image to a file <outfile>.png.')
+    parser.add_argument('-x', '--showimage',
                         dest='show_image',
                         action='store_true',
-                        help='display matplotlib image, ' \
-                             'user must close before continuing')
-    parser.add_argument('-z', '--no_zip',
+                        help='Display matplotlib image, '
+                             'user must close before continuing.')
+    parser.add_argument('-z', '--nozip',
                         dest='no_zip',
                         action='store_true',
-                        help='no zip file output')
+                        help='No zip file output.')
     parser.add_argument('-n', '--ncfilename',
                         dest='ncfilename',
+                        action='store',
+                        metavar='NC_FILE_NAME',
                         default='maxele.63.nc',
-                        help='netCDF file to read from, ' \
-                             'or a URL to an OPeNDAP file',
-                        action='store')
+                        help='Path to NetCDF file to read, '
+                             'or a URL to an OPeNDAP resource.')
     parser.add_argument('-o', '--outfilename',
                         dest='outfilename',
+                        action='store',
+                        metavar='OUTPUT_FILE_NAME',
                         default='outShape',
-                        help='filename to write shapefile to',
-                        action='store')
-    parser.add_argument('-v', '--nc_var_name',
+                        help='Filename to write as shapefile.')
+    parser.add_argument('-v', '--ncvarname',
                         dest='nc_var_name',
+                        action='store',
+                        metavar='NC_VAR_NAME',
                         default='zeta_max',
-                        help='netCDF variable name to render',
-                        action='store')
+                        help='NetCDF variable name to render.')
     parser.add_argument('-a', '--minval',
                         type=int,
                         dest='minval',
+                        action='store',
+                        metavar="MIN_VAL",
                         default=0,
-                        help='smallest scalar value to render',
-                        action='store')
+                        help='Smallest scalar value to render.')
     parser.add_argument('-b', '--maxval',
                         type=int,
                         dest='maxval',
+                        action='store',
+                        metavar='MAX_VAL',
                         default=10,
-                        help='largest scalar value to render',
-                        action='store')
+                        help='Largest scalar value to render.')
     parser.add_argument('-c', '--numlevels',
                         type=int,
                         dest='numlevels',
+                        action='store',
+                        metavar='NUM_LEVELS',
                         default=11,
-                        help='number of contour levels',
-                        action='store')
-    parser.add_argument('-l', '--axis_limits',
+                        help='Number of contour levels.')
+    parser.add_argument('-l', '--axislimits',
                         nargs=4,
                         dest='axis_limits',
-                        help='axis limits to clip to')
+                        action='store',
+                        metavar=('X0', 'Y0', 'X1', "Y1"),
+                        default=[],
+                        help='Bounding box list of coordinates.')
+    parser.add_argument('-p', '--proj',
+                        dest="ProjStr",
+                        action='store',
+                        metavar="PROJECTION_STRING",
+                        default='GEOGCS["GCS_WGS_1984",'
+                                'DATUM["D_WGS_1984",'
+                                'SPHEROID["WGS_1984",'
+                                '6378137.0,298.257223563]],'
+                                'PRIMEM["Greenwich",0.0],'
+                                'UNIT["Degree",0.0174532925199433]]',
+                        help="Projection string as Well Known Text (WKT).")
 
-    return parser.parse_args('-h'.split())
+    return parser.parse_args(argv)
 
 
-def main():
+def main(argv):
 
     # Default parameter values.
     ncfilename = 'maxele.63.nc'
@@ -285,4 +305,4 @@ def main():
     # c = fiona.open(shapefilename, 'r')
 
 if __name__ == "__main__":
-    main()
+    main(sys.arrg[1:])
