@@ -25,7 +25,31 @@ def parse_args():
     parser.add_argument('-d', '--debug',
                         dest='debug',
                         action='store_true',
-                        help='Display diagnostics')
+                        help='display diagnostics')
+    parser.add_argument('-s', '--silent',
+                        dest='silent',
+                        action='store_true',
+                        help='no screen diagnostic output')
+    parser.add_argument('-w', '--write_image',
+                        dest='write_image',
+                        action='store_true',
+                        help='write matplotlib image to a file <outfile>.png')
+    parser.add_argument('-x', '--show_image',
+                        dest='show_image',
+                        action='store_true',
+                        help='display matplotlib image, ' \
+                             'user must close before continuing')
+    parser.add_argument('-z', '--no_zip',
+                        dest='no_zip',
+                        action='store_true',
+                        help='no zip file output')
+    parser.add_argument('-n', '--ncfilename',
+                        default='maxele.63.nc',
+                        help='netCDF file to read from, ' \
+                             'or a URL to an OPeNDAP file')
+    parser.add_argument('ncfilename',
+                        default='maxele.63.nc',
+                        action='store_true')
     return parser.parse_args('-h'.split())
 
 
@@ -39,10 +63,10 @@ def main():
     MaxVal = 10
     AxisLims = []
     NumLevels = 11
-    Silent = False
-    WriteImage = False
-    ShowImage = False
-    WriteZip = True
+    silent = False
+    write_image = False
+    show_image = False
+    no_zip = False
     debug = False
     ProjStr = 'GEOGCS["GCS_WGS_1984",' \
               'DATUM["D_WGS_1984",' \
@@ -71,14 +95,14 @@ def main():
     path, ncfile = os.path.split(url)
     if not path:
         path = 'file://'
-    if not Silent:
+    if not silent:
         print path + ncfile
 
     # end of url must have .nc
     # if url[-3:] != '.nc': url=url+'.nc'
 
     # get stuff from netCDF file
-    if not Silent:
+    if not silent:
         print 'Getting data from %s... ' % url
 
     nc = netCDF4.Dataset(url)
@@ -110,17 +134,17 @@ def main():
         print "   Max of nv is (%i)" % elems.max()
         print "   First value in var: " + str(data[0]) + '\n'
 
-    if not Silent:
+    if not silent:
         print 'Triangulating ...'
     tri = Tri.Triangulation(lon, lat, triangles=elems)
 
-    if not Silent:
+    if not silent:
         print 'Making contours in figure ...'
     fig = plt.figure(figsize=(10, 10))
     plt.subplot(111, aspect=(1.0 / cos(mean(lat) * pi / 180.0)))
     levels = linspace(MinVal, MaxVal, num=NumLevels)
 
-    if not Silent:
+    if not silent:
         print 'Calling tricontourf  ...'
     contour = tricontourf(tri, data, levels=levels, shading='faceted')
     cbar = fig.colorbar(contour, orientation='vertical', ticks=levels)
@@ -139,18 +163,18 @@ def main():
         AxisLims = map(float, AxisLimsSplit)
         axis(AxisLims)
 
-    if WriteImage:
-        if not Silent:
+    if write_image:
+        if not silent:
             print "Saving figure as " + imagefilename
         savefig(imagefilename)
 
-    if ShowImage:
+    if show_image:
         print "\nDisplay window must be closed " \
               "before shapefile can be written. \n"
         show()
 
     # this is the meat, as per Rusty Holleman
-    if not Silent:
+    if not silent:
         print 'Extracting contour shapes from tricontourf object ...'
     geoms = []
     # create list of tuples (geom, vmin, vmax)
@@ -167,7 +191,7 @@ def main():
                 geoms.append((Polygon(polys[0], polys[1:]), vmin, vmax))
 
     # this is the other meat, as per Rusty Holleman
-    if not Silent:
+    if not silent:
         print "Writing shapes to " + shapefilename
     schema = {'geometry': 'Polygon',
               'properties': {'vmin': 'float',
@@ -179,7 +203,7 @@ def main():
                 'properties': {'vmin': geom[1], 'vmax': geom[2]},
             })
 
-    if not Silent:
+    if not silent:
         print "Writing prj to " + prjfilename
 
     prj_file = open(prjfilename, 'w')
@@ -198,8 +222,8 @@ def main():
     rmf.write('Units: {0}\n'.format(units))
     rmf.close()
 
-    if WriteZip:
-        if not Silent:
+    if not no_zip:
+        if not silent:
             print 'Flushing zip file to ' + zipfilename
         zf = zipfile.ZipFile(zipfilename, mode='w')
         zf.write(outfilename + '.shp')
