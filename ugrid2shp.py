@@ -44,12 +44,40 @@ def parse_args():
                         action='store_true',
                         help='no zip file output')
     parser.add_argument('-n', '--ncfilename',
+                        dest='ncfilename',
                         default='maxele.63.nc',
                         help='netCDF file to read from, ' \
-                             'or a URL to an OPeNDAP file')
-    parser.add_argument('ncfilename',
-                        default='maxele.63.nc',
-                        action='store_true')
+                             'or a URL to an OPeNDAP file',
+                        action='store')
+    parser.add_argument('-o', '--outfilename',
+                        dest='outfilename',
+                        default='outShape',
+                        help='filename to write shapefile to',
+                        action='store')
+    parser.add_argument('-v', '--nc_var_name',
+                        dest='nc_var_name',
+                        default='zeta_max',
+                        help='netCDF variable name to render',
+                        action='store')
+    parser.add_argument('-a', '--minval',
+                        type=int,
+                        dest='minval',
+                        default=0,
+                        help='smallest scalar value to render',
+                        action='store')
+    parser.add_argument('-b', '--maxval',
+                        type=int,
+                        dest='maxval',
+                        default=10,
+                        help='largest scalar value to render',
+                        action='store')
+    parser.add_argument('-c', '--numlevels',
+                        type=int,
+                        dest='numlevels',
+                        default=11,
+                        help='largest scalar value to render',
+                        action='store')
+
     return parser.parse_args('-h'.split())
 
 
@@ -58,11 +86,11 @@ def main():
     # Default parameter values.
     ncfilename = 'maxele.63.nc'
     outfilename = 'outShape'
-    NcVarName = 'zeta_max'
-    MinVal = 0
-    MaxVal = 10
+    nc_var_name = 'zeta_max'
+    minval = 0
+    maxval = 10
     AxisLims = []
-    NumLevels = 11
+    numlevels = 11
     silent = False
     write_image = False
     show_image = False
@@ -117,13 +145,13 @@ def main():
 
     lon = vars['x'][:]
     lat = vars['y'][:]
-    var = vars[NcVarName]
+    var = vars[nc_var_name]
     units = var.units
-    data = vars[NcVarName][:]
+    data = vars[nc_var_name][:]
     if len(data.shape) > 1:
         data = data[0, :]
     elems = vars['element'][:, :] - 1  # Move to 0-indexing by subtracting 1
-    plot_title = 'MatPlotLib plot of ' + NcVarName + ' in ' + ncfile
+    plot_title = 'MatPlotLib plot of ' + nc_var_name + ' in ' + ncfile
 
     if debug:
         print "\n   Shape of lon is (%i)" % lon.shape
@@ -142,7 +170,7 @@ def main():
         print 'Making contours in figure ...'
     fig = plt.figure(figsize=(10, 10))
     plt.subplot(111, aspect=(1.0 / cos(mean(lat) * pi / 180.0)))
-    levels = linspace(MinVal, MaxVal, num=NumLevels)
+    levels = linspace(minval, maxval, num=numlevels)
 
     if not silent:
         print 'Calling tricontourf  ...'
