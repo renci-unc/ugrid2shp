@@ -25,7 +25,63 @@ def parse_args():
     parser.add_argument('-d', '--debug',
                         dest='debug',
                         action='store_true',
-                        help='Display diagnostics')
+                        help='display diagnostics')
+    parser.add_argument('-s', '--silent',
+                        dest='silent',
+                        action='store_true',
+                        help='no screen diagnostic output')
+    parser.add_argument('-w', '--write_image',
+                        dest='write_image',
+                        action='store_true',
+                        help='write matplotlib image to a file <outfile>.png')
+    parser.add_argument('-x', '--show_image',
+                        dest='show_image',
+                        action='store_true',
+                        help='display matplotlib image, ' \
+                             'user must close before continuing')
+    parser.add_argument('-z', '--no_zip',
+                        dest='no_zip',
+                        action='store_true',
+                        help='no zip file output')
+    parser.add_argument('-n', '--ncfilename',
+                        dest='ncfilename',
+                        default='maxele.63.nc',
+                        help='netCDF file to read from, ' \
+                             'or a URL to an OPeNDAP file',
+                        action='store')
+    parser.add_argument('-o', '--outfilename',
+                        dest='outfilename',
+                        default='outShape',
+                        help='filename to write shapefile to',
+                        action='store')
+    parser.add_argument('-v', '--nc_var_name',
+                        dest='nc_var_name',
+                        default='zeta_max',
+                        help='netCDF variable name to render',
+                        action='store')
+    parser.add_argument('-a', '--minval',
+                        type=int,
+                        dest='minval',
+                        default=0,
+                        help='smallest scalar value to render',
+                        action='store')
+    parser.add_argument('-b', '--maxval',
+                        type=int,
+                        dest='maxval',
+                        default=10,
+                        help='largest scalar value to render',
+                        action='store')
+    parser.add_argument('-c', '--numlevels',
+                        type=int,
+                        dest='numlevels',
+                        default=11,
+                        help='number of contour levels',
+                        action='store')
+    parser.add_argument('-l', '--axis_limits',
+                        nargs=4,
+                        dest='axis_limits',
+                        help='axis limits to clip to')
+
     return parser.parse_args('-h'.split())
 
 
@@ -34,15 +90,15 @@ def main():
     # Default parameter values.
     ncfilename = 'maxele.63.nc'
     outfilename = 'outShape'
-    NcVarName = 'zeta_max'
-    MinVal = 0
-    MaxVal = 10
-    AxisLims = []
-    NumLevels = 11
-    Silent = False
-    WriteImage = False
-    ShowImage = False
-    WriteZip = True
+    nc_var_name = 'zeta_max'
+    minval = 0
+    maxval = 10
+    axis_limits = []
+    numlevels = 11
+    silent = False
+    write_image = False
+    show_image = False
+    no_zip = False
     debug = False
     ProjStr = 'GEOGCS["GCS_WGS_1984",' \
               'DATUM["D_WGS_1984",' \
@@ -71,14 +127,14 @@ def main():
     path, ncfile = os.path.split(url)
     if not path:
         path = 'file://'
-    if not Silent:
+    if not silent:
         print path + ncfile
 
     # end of url must have .nc
     # if url[-3:] != '.nc': url=url+'.nc'
 
     # get stuff from netCDF file
-    if not Silent:
+    if not silent:
         print 'Getting data from %s... ' % url
 
     nc = netCDF4.Dataset(url)
@@ -93,13 +149,13 @@ def main():
 
     lon = vars['x'][:]
     lat = vars['y'][:]
-    var = vars[NcVarName]
+    var = vars[nc_var_name]
     units = var.units
-    data = vars[NcVarName][:]
+    data = vars[nc_var_name][:]
     if len(data.shape) > 1:
         data = data[0, :]
     elems = vars['element'][:, :] - 1  # Move to 0-indexing by subtracting 1
-    plot_title = 'MatPlotLib plot of ' + NcVarName + ' in ' + ncfile
+    plot_title = 'MatPlotLib plot of ' + nc_var_name + ' in ' + ncfile
 
     if debug:
         print "\n   Shape of lon is (%i)" % lon.shape
@@ -110,17 +166,17 @@ def main():
         print "   Max of nv is (%i)" % elems.max()
         print "   First value in var: " + str(data[0]) + '\n'
 
-    if not Silent:
+    if not silent:
         print 'Triangulating ...'
     tri = Tri.Triangulation(lon, lat, triangles=elems)
 
-    if not Silent:
+    if not silent:
         print 'Making contours in figure ...'
     fig = plt.figure(figsize=(10, 10))
     plt.subplot(111, aspect=(1.0 / cos(mean(lat) * pi / 180.0)))
-    levels = linspace(MinVal, MaxVal, num=NumLevels)
+    levels = linspace(minval, maxval, num=numlevels)
 
-    if not Silent:
+    if not silent:
         print 'Calling tricontourf  ...'
     contour = tricontourf(tri, data, levels=levels, shading='faceted')
     cbar = fig.colorbar(contour, orientation='vertical', ticks=levels)
@@ -134,23 +190,23 @@ def main():
 
     # This takes the axis limit string arg and converts it to a list.
     # Then it converts that list to floats.
-    if not AxisLims:
-        AxisLimsSplit = AxisLims.split(',')
-        AxisLims = map(float, AxisLimsSplit)
-        axis(AxisLims)
+    if not axis_limits:
+        AxisLimsSplit = axis_limits.split(',')
+        axis_limits = map(float, AxisLimsSplit)
+        axis(axis_limits)
 
-    if WriteImage:
-        if not Silent:
+    if write_image:
+        if not silent:
             print "Saving figure as " + imagefilename
         savefig(imagefilename)
 
-    if ShowImage:
+    if show_image:
         print "\nDisplay window must be closed " \
               "before shapefile can be written. \n"
         show()
 
     # this is the meat, as per Rusty Holleman
-    if not Silent:
+    if not silent:
         print 'Extracting contour shapes from tricontourf object ...'
     geoms = []
     # create list of tuples (geom, vmin, vmax)
@@ -167,7 +223,7 @@ def main():
                 geoms.append((Polygon(polys[0], polys[1:]), vmin, vmax))
 
     # this is the other meat, as per Rusty Holleman
-    if not Silent:
+    if not silent:
         print "Writing shapes to " + shapefilename
     schema = {'geometry': 'Polygon',
               'properties': {'vmin': 'float',
@@ -179,7 +235,7 @@ def main():
                 'properties': {'vmin': geom[1], 'vmax': geom[2]},
             })
 
-    if not Silent:
+    if not silent:
         print "Writing prj to " + prjfilename
 
     prj_file = open(prjfilename, 'w')
@@ -198,8 +254,8 @@ def main():
     rmf.write('Units: {0}\n'.format(units))
     rmf.close()
 
-    if WriteZip:
-        if not Silent:
+    if not no_zip:
+        if not silent:
             print 'Flushing zip file to ' + zipfilename
         zf = zipfile.ZipFile(zipfilename, mode='w')
         zf.write(outfilename + '.shp')
