@@ -75,7 +75,7 @@ def parse_args():
                         type=int,
                         dest='numlevels',
                         default=11,
-                        help='largest scalar value to render',
+                        help='number of contour levels',
                         action='store')
 
     return parser.parse_args('-h'.split())
