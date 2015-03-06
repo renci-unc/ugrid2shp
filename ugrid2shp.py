@@ -77,6 +77,10 @@ def parse_args():
                         default=11,
                         help='number of contour levels',
                         action='store')
+    parser.add_argument('-l', '--axis_limits',
+                        nargs=4,
+                        dest='axis_limits',
+                        help='axis limits to clip to')
 
     return parser.parse_args('-h'.split())
 
@@ -89,7 +93,7 @@ def main():
     nc_var_name = 'zeta_max'
     minval = 0
     maxval = 10
-    AxisLims = []
+    axis_limits = []
     numlevels = 11
     silent = False
     write_image = False
@@ -186,10 +190,10 @@ def main():
 
     # This takes the axis limit string arg and converts it to a list.
     # Then it converts that list to floats.
-    if not AxisLims:
-        AxisLimsSplit = AxisLims.split(',')
-        AxisLims = map(float, AxisLimsSplit)
-        axis(AxisLims)
+    if not axis_limits:
+        AxisLimsSplit = axis_limits.split(',')
+        axis_limits = map(float, AxisLimsSplit)
+        axis(axis_limits)
 
     if write_image:
         if not silent:
