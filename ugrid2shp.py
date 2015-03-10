@@ -107,77 +107,55 @@ def parse_args(argv):
 
 def main(argv):
 
-    # Default parameter values.
-    ncfilename = 'maxele.63.nc'
-    outfilename = 'outShape'
-    nc_var_name = 'zeta_max'
-    minval = 0
-    maxval = 10
-    axis_limits = []
-    numlevels = 11
-    silent = False
-    write_image = False
-    show_image = False
-    no_zip = False
-    debug = False
-    ProjStr = 'GEOGCS["GCS_WGS_1984",' \
-              'DATUM["D_WGS_1984",' \
-              'SPHEROID["WGS_1984",6378137.0,298.257223563]],' \
-              'PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]]'
+    args = parse_args(argv)
 
-    imagefilename = outfilename + '.png'
-    shapefilename = outfilename + '.shp'
-    prjfilename = outfilename + '.prj'
-    zipfilename = outfilename + '.zip'
+    imagefilename = args.outfilename + '.png'
+    shapefilename = args.outfilename + '.shp'
+    prjfilename = args.outfilename + '.prj'
+    zipfilename = args.outfilename + '.zip'
     readmefilename = 'README.txt'
 
     # get timestamp
     ts = time.time()
     st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-    if debug:
+    if args.debug:
         print "Create time " + st
 
-    if not ncfilename:
-        no_ncfilename_msg = \
-            "You must pass a netCDF filename or url as an argument. " \
-            "Use the -n or --NcFileName argument to do this."
-        raise Exception(no_ncfilename_msg)
-
-    url = ncfilename
+    url = args.ncfilename
     path, ncfile = os.path.split(url)
     if not path:
         path = 'file://'
-    if not silent:
+    if not args.silent:
         print path + ncfile
 
     # end of url must have .nc
     # if url[-3:] != '.nc': url=url+'.nc'
 
     # get stuff from netCDF file
-    if not silent:
+    if not args.silent:
         print 'Getting data from %s... ' % url
 
     nc = netCDF4.Dataset(url)
-    vars = nc.variables
-    if debug:
-        print vars.keys()
+    ncvars = nc.variables
+    if args.debug:
+        print ncvars.keys()
 
     # get some global attributes
     model = getattr(nc, 'model')
     grid = getattr(nc, 'agrid')
     inst = getattr(nc, 'institution')
 
-    lon = vars['x'][:]
-    lat = vars['y'][:]
-    var = vars[nc_var_name]
+    lon = ncvars['x'][:]
+    lat = ncvars['y'][:]
+    var = ncvars[args.nc_var_name]
     units = var.units
-    data = vars[nc_var_name][:]
+    data = ncvars[args.nc_var_name][:]
     if len(data.shape) > 1:
         data = data[0, :]
-    elems = vars['element'][:, :] - 1  # Move to 0-indexing by subtracting 1
-    plot_title = 'MatPlotLib plot of ' + nc_var_name + ' in ' + ncfile
+    elems = ncvars['element'][:, :] - 1  # Move to 0-indexing by subtracting 1
+    plot_title = 'MatPlotLib plot of ' + args.nc_var_name + ' in ' + ncfile
 
-    if debug:
+    if args.debug:
         print "\n   Shape of lon is (%i)" % lon.shape
         print "   Shape of lat is (%i)" % lat.shape
         print "   Shape of nv is (%i, %i)" % elems.shape
@@ -186,17 +164,17 @@ def main(argv):
         print "   Max of nv is (%i)" % elems.max()
         print "   First value in var: " + str(data[0]) + '\n'
 
-    if not silent:
+    if not args.silent:
         print 'Triangulating ...'
     tri = Tri.Triangulation(lon, lat, triangles=elems)
 
-    if not silent:
+    if not args.silent:
         print 'Making contours in figure ...'
     fig = plt.figure(figsize=(10, 10))
     plt.subplot(111, aspect=(1.0 / cos(mean(lat) * pi / 180.0)))
-    levels = linspace(minval, maxval, num=numlevels)
+    levels = linspace(args.minval, args.maxval, num=args.numlevels)
 
-    if not silent:
+    if not args.silent:
         print 'Calling tricontourf  ...'
     contour = tricontourf(tri, data, levels=levels, shading='faceted')
     cbar = fig.colorbar(contour, orientation='vertical', ticks=levels)
@@ -210,23 +188,22 @@ def main(argv):
 
     # This takes the axis limit string arg and converts it to a list.
     # Then it converts that list to floats.
-    if not axis_limits:
-        AxisLimsSplit = axis_limits.split(',')
-        axis_limits = map(float, AxisLimsSplit)
+    if args.axis_limits:
+        axis_limits = map(float, args.axis_limits)
         axis(axis_limits)
 
-    if write_image:
-        if not silent:
+    if args.write_image:
+        if not args.silent:
             print "Saving figure as " + imagefilename
         savefig(imagefilename)
 
-    if show_image:
+    if args.show_image:
         print "\nDisplay window must be closed " \
               "before shapefile can be written. \n"
         show()
 
     # this is the meat, as per Rusty Holleman
-    if not silent:
+    if not args.silent:
         print 'Extracting contour shapes from tricontourf object ...'
     geoms = []
     # create list of tuples (geom, vmin, vmax)
@@ -243,7 +220,7 @@ def main(argv):
                 geoms.append((Polygon(polys[0], polys[1:]), vmin, vmax))
 
     # this is the other meat, as per Rusty Holleman
-    if not silent:
+    if not args.silent:
         print "Writing shapes to " + shapefilename
     schema = {'geometry': 'Polygon',
               'properties': {'vmin': 'float',
@@ -255,11 +232,11 @@ def main(argv):
                 'properties': {'vmin': geom[1], 'vmax': geom[2]},
             })
 
-    if not silent:
+    if not args.silent:
         print "Writing prj to " + prjfilename
 
     prj_file = open(prjfilename, 'w')
-    prj_file.write(ProjStr)
+    prj_file.write(args.ProjStr)
     prj_file.close()
 
     # write a README file
@@ -270,39 +247,39 @@ def main(argv):
     rmf.write('Institution: {0}\n'.format(inst))
     rmf.write('Url: {0}\n'.format(path))
     rmf.write('File: {0}\n'.format(ncfile))
-    rmf.write('ProjStr: {0}\n'.format(ProjStr))
+    rmf.write('ProjStr: {0}\n'.format(args.ProjStr))
     rmf.write('Units: {0}\n'.format(units))
     rmf.close()
 
-    if not no_zip:
-        if not silent:
+    if not args.no_zip:
+        if not args.silent:
             print 'Flushing zip file to ' + zipfilename
         zf = zipfile.ZipFile(zipfilename, mode='w')
-        zf.write(outfilename + '.shp')
-        if os.path.isfile(outfilename + '.prj'):
-            zf.write(outfilename + '.prj')
-        if os.path.isfile(outfilename + '.cpg'):
-            zf.write(outfilename + '.cpg')
-        if os.path.isfile(outfilename + '.shx'):
-            zf.write(outfilename + '.shx')
-        if os.path.isfile(outfilename + '.dbf'):
-            zf.write(outfilename + '.dbf')
+        zf.write(args.outfilename + '.shp')
+        if os.path.isfile(args.outfilename + '.prj'):
+            zf.write(args.outfilename + '.prj')
+        if os.path.isfile(args.outfilename + '.cpg'):
+            zf.write(args.outfilename + '.cpg')
+        if os.path.isfile(args.outfilename + '.shx'):
+            zf.write(args.outfilename + '.shx')
+        if os.path.isfile(args.outfilename + '.dbf'):
+            zf.write(args.outfilename + '.dbf')
         zf.write(readmefilename)
         zf.close()
 
         # Remove working files
-        if os.path.isfile(outfilename + '.prj'):
-            os.remove(outfilename + '.prj')
-        if os.path.isfile(outfilename + '.cpg'):
-            os.remove(outfilename + '.cpg')
-        if os.path.isfile(outfilename + '.shx'):
-            os.remove(outfilename + '.shx')
-        if os.path.isfile(outfilename + '.dbf'):
-            os.remove(outfilename + '.dbf')
-        os.remove(outfilename + '.shp')
+        if os.path.isfile(args.outfilename + '.prj'):
+            os.remove(args.outfilename + '.prj')
+        if os.path.isfile(args.outfilename + '.cpg'):
+            os.remove(args.outfilename + '.cpg')
+        if os.path.isfile(args.outfilename + '.shx'):
+            os.remove(args.outfilename + '.shx')
+        if os.path.isfile(args.outfilename + '.dbf'):
+            os.remove(args.outfilename + '.dbf')
+        os.remove(args.outfilename + '.shp')
 
     # try reading the Shapefile back in
     # c = fiona.open(shapefilename, 'r')
 
 if __name__ == "__main__":
-    main(sys.arrg[1:])
+    main(sys.argv[1:])
