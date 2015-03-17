@@ -6,3 +6,5 @@ old
 README.txt
 test_*
 *.pyc
+*.zip
+*.egg-info
