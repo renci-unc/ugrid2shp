@@ -36,6 +36,7 @@ defaults = {'ProjStr': 'GEOGCS["GCS_WGS_1984",'
             'silent': False,
             'write_image': False}
 
+
 def parse_args(argv):
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
