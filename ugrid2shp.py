@@ -18,6 +18,23 @@ import argparse
 import zipfile
 import os
 
+defaults = {'ProjStr': 'GEOGCS["GCS_WGS_1984",'
+                       'DATUM["D_WGS_1984",'
+                       'SPHEROID["WGS_1984",6378137.0,298.257223563]],'
+                       'PRIMEM["Greenwich",0.0],'
+                       'UNIT["Degree",0.0174532925199433]]',
+            'axis_limits': [],
+            'debug': False,
+            'maxval': 10,
+            'minval': 0,
+            'nc_var_name': 'zeta_max',
+            'ncfilename': 'maxele.63.nc',
+            'no_zip': False,
+            'numlevels': 11,
+            'outfilename': 'outShape',
+            'show_image': False,
+            'silent': False,
+            'write_image': False}
 
 def parse_args(argv):
     parser = argparse.ArgumentParser(
@@ -47,59 +64,54 @@ def parse_args(argv):
                         dest='ncfilename',
                         action='store',
                         metavar='NC_FILE_NAME',
-                        default='maxele.63.nc',
+                        default=defaults['ncfilename'],
                         help='Path to NetCDF file to read, '
                              'or a URL to an OPeNDAP resource.')
     parser.add_argument('-o', '--outfilename',
                         dest='outfilename',
                         action='store',
                         metavar='OUTPUT_FILE_NAME',
-                        default='outShape',
+                        default=defaults['outfilename'],
                         help='Filename to write as shapefile.')
     parser.add_argument('-v', '--ncvarname',
                         dest='nc_var_name',
                         action='store',
                         metavar='NC_VAR_NAME',
-                        default='zeta_max',
+                        default=defaults['nc_var_name'],
                         help='NetCDF variable name to render.')
     parser.add_argument('-a', '--minval',
                         type=int,
                         dest='minval',
                         action='store',
                         metavar="MIN_VAL",
-                        default=0,
+                        default=defaults['minval'],
                         help='Smallest scalar value to render.')
     parser.add_argument('-b', '--maxval',
                         type=int,
                         dest='maxval',
                         action='store',
                         metavar='MAX_VAL',
-                        default=10,
+                        default=defaults['maxval'],
                         help='Largest scalar value to render.')
     parser.add_argument('-c', '--numlevels',
                         type=int,
                         dest='numlevels',
                         action='store',
                         metavar='NUM_LEVELS',
-                        default=11,
+                        default=defaults['numlevels'],
                         help='Number of contour levels.')
     parser.add_argument('-l', '--axislimits',
                         nargs=4,
                         dest='axis_limits',
                         action='store',
                         metavar=('X0', 'Y0', 'X1', "Y1"),
-                        default=[],
+                        default=defaults['axis_limits'],
                         help='Bounding box list of coordinates.')
     parser.add_argument('-p', '--proj',
                         dest="ProjStr",
                         action='store',
                         metavar="PROJECTION_STRING",
-                        default='GEOGCS["GCS_WGS_1984",'
-                                'DATUM["D_WGS_1984",'
-                                'SPHEROID["WGS_1984",'
-                                '6378137.0,298.257223563]],'
-                                'PRIMEM["Greenwich",0.0],'
-                                'UNIT["Degree",0.0174532925199433]]',
+                        default=defaults['ProjStr'],
                         help="Projection string as Well Known Text (WKT).")
 
     return parser.parse_args(argv)
