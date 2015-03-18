@@ -83,5 +83,87 @@ class TestParseArgs(unittest.TestCase):
                          test_ncfilename,
                          "Option --ncfilename did not set filename.")
 
+    def test_o_arg(self):
+        test_outfilename = "outdamnedspot"
+        args = vars(ugrid2shp.parse_args(("-o %s"
+                                          % (test_outfilename)).split()))
+        self.assertEqual(args['outfilename'],
+                         test_outfilename,
+                         "Option -o did not set output filename.")
+
+    def test_outfilename_arg(self):
+        test_outfilename = "outfordinner"
+        args = vars(ugrid2shp.parse_args(("--outfilename %s"
+                                          % (test_outfilename)).split()))
+        self.assertEqual(args['outfilename'],
+                         test_outfilename,
+                         "Option --outfilename did not set output filename.")
+
+    def test_v_arg(self):
+        test_ncvarname = "elevation"
+        args = vars(ugrid2shp.parse_args(("-v %s"
+                                          % (test_ncvarname)).split()))
+        self.assertEqual(args['nc_var_name'],
+                         test_ncvarname,
+                         "Option -v did not set NetCDF variable name.")
+
+    def test_ncvarname_arg(self):
+        test_ncvarname = "bigwaves"
+        args = vars(ugrid2shp.parse_args(("--ncvarname %s"
+                                          % (test_ncvarname)).split()))
+        self.assertEqual(args['nc_var_name'],
+                         test_ncvarname,
+                         "Option --ncvarname did not set "
+                         "NetCDF variable name.")
+
+    def test_a_arg(self):
+        test_minval = 20
+        args = vars(ugrid2shp.parse_args(("-a %s"
+                                          % (test_minval)).split()))
+        self.assertEqual(args['minval'],
+                         test_minval,
+                         "Option -a did not set minimum scalar value.")
+
+    def test_minval_arg(self):
+        test_minval = 100
+        args = vars(ugrid2shp.parse_args(("--minval %s"
+                                          % (test_minval)).split()))
+        self.assertEqual(args['minval'],
+                         test_minval,
+                         "Option --minval did not set minimum scalar value.")
+
+    def test_b_arg(self):
+        test_maxval = 200
+        args = vars(ugrid2shp.parse_args(("-b %s"
+                                          % (test_maxval)).split()))
+        self.assertEqual(args['maxval'],
+                         test_maxval,
+                         "Option -b did not set maximum scalar value.")
+
+    def test_maxval_arg(self):
+        test_maxval = 300
+        args = vars(ugrid2shp.parse_args(("--maxval %s"
+                                          % (test_maxval)).split()))
+        self.assertEqual(args['maxval'],
+                         test_maxval,
+                         "Option --maxval did not set maximum scalar value.")
+
+    def test_c_arg(self):
+        test_numlevels = 5
+        args = vars(ugrid2shp.parse_args(("-c %s"
+                                          % (test_numlevels)).split()))
+        self.assertEqual(args['numlevels'],
+                         test_numlevels,
+                         "Option -c did not set number of contour levels.")
+
+    def test_numlevels_arg(self):
+        test_numlevels = 8
+        args = vars(ugrid2shp.parse_args(("--numlevels %s"
+                                          % (test_numlevels)).split()))
+        self.assertEqual(args['numlevels'],
+                         test_numlevels,
+                         "Option --numlevels did not set "
+                         "number of contour levels.")
+
 if __name__ == "__main__":
     unittest.main()
