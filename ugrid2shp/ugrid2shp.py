@@ -118,7 +118,7 @@ def parse_args(argv):
     return parser.parse_args(argv)
 
 
-def main(argv):
+def ugrid2shp(argv):
 
     args = parse_args(argv)
 
@@ -293,6 +293,3 @@ def main(argv):
 
     # try reading the Shapefile back in
     # c = fiona.open(shapefilename, 'r')
-
-if __name__ == "__main__":
-    main(sys.argv[1:])
