@@ -1,0 +1,3 @@
+Copyright 2015 University of North Carolina. ALL RIGHTS RESERVED.
+Use of this software is authorized pursuant to the terms of
+the accompanying LICENSE.txt.
