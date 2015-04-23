@@ -164,6 +164,3 @@ class TestParseArgs(unittest.TestCase):
                          test_numlevels,
                          "Option --numlevels did not set "
                          "number of contour levels.")
-
-if __name__ == "__main__":
-    unittest.main()

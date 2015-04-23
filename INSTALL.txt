@@ -1,0 +1,5 @@
+$ pip install ugrid2shp
+
+or
+
+$ python setup.py install
