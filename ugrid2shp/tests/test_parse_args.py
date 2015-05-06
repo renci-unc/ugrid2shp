@@ -164,3 +164,39 @@ class TestParseArgs(unittest.TestCase):
                          test_numlevels,
                          "Option --numlevels did not set "
                          "number of contour levels.")
+
+    def test_l_arg(self):
+        test_axislimits = {"10", "20", "30", "40"}
+        args = vars(ugrid2shp.parse_args(("-l %s"
+                                          % " ".join(test_axislimits))
+                                         .split()))
+        self.assertSetEqual(set(args['axis_limits']),
+                            test_axislimits,
+                            "Option -l did not set axis limits.")
+
+    def test_axislimits_arg(self):
+        test_axislimits = {"40", "30", "20", "10"}
+        args = vars(ugrid2shp.parse_args(("--axislimits %s"
+                                          % " ".join(test_axislimits))
+                                         .split()))
+        self.assertSetEqual(set(args['axis_limits']),
+                            test_axislimits,
+                            "Option --axislimits did not set axis limits.")
+
+    # need to figure out how to do these final 2 tests with
+    # a multi word projection string
+    def test_p_arg(self):
+        test_projection = "a_projection"
+        args = vars(ugrid2shp.parse_args(("-p %s"
+                                          % (test_projection)).split()))
+        self.assertEqual(args['ProjStr'],
+                         test_projection,
+                         "Option -p did not set projection string")
+
+    def test_proj_arg(self):
+        test_projection = "other_projection"
+        args = vars(ugrid2shp.parse_args(("--proj %s"
+                                          % (test_projection)).split()))
+        self.assertEqual(args['ProjStr'],
+                         test_projection,
+                         "Option --proj did not set projection string")
